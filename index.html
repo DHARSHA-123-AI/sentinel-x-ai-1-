@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SENTINEL-X AI PRO</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#080e1c;color:#eaf1ff}
+header{padding:20px 7%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #24334d}
+.logo{font-size:23px;font-weight:bold;color:#48d9ff}
+.logo span{color:white}
+nav a{color:#c4d3e8;text-decoration:none;margin-left:20px;font-size:14px}
+.hero{padding:65px 7% 35px;text-align:center}
+.tag{color:#45dcff;font-size:12px;letter-spacing:3px}
+h1{font-size:clamp(32px,6vw,54px);margin:18px 0}
+h1 span{color:#45dcff}
+.hero p{color:#a9b9d1;line-height:1.7;max-width:650px;margin:auto}
+.container{max-width:1100px;margin:25px auto;padding:0 18px}
+.panel{background:#101b30;border:1px solid #243954;border-radius:15px;padding:23px;margin-bottom:20px}
+h2{font-size:20px;margin-bottom:15px}
+input,textarea{width:100%;padding:14px;margin:8px 0;background:#081326;border:1px solid #344963;border-radius:8px;color:white;outline:none}
+textarea{min-height:110px;resize:vertical}
+button{background:#13bfe9;color:#06101c;padding:13px 20px;border:0;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px}
+button:hover{background:#72e6ff}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin:20px 0}
+.stat{background:#101b30;border:1px solid #263b56;padding:20px;border-radius:12px}
+.stat small{color:#91a6c4}
+.stat strong{display:block;font-size:27px;margin-top:12px;color:#48d9ff}
+.result{display:none;margin-top:17px;padding:17px;border-radius:10px;background:#0a2630;border:1px solid #247b80;line-height:1.7}
+.safe{color:#55e6a5}.warning{color:#ffd36b}.danger{color:#ff7777}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+footer{text-align:center;padding:35px;color:#8295b2;border-top:1px solid #24334d;margin-top:40px;font-size:13px}
+@media(max-width:600px){header{padding:16px;flex-wrap:wrap;gap:12px}nav a{margin-left:0;margin-right:12px}.hero{padding-top:45px}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">SENTINEL-X <span>AI PRO</span></div>
+<nav>
+<a href="#home">Home</a>
+<a href="#analysis">Analysis</a>
+<a href="#about">About</a>
+</nav>
+</header>
+
+<section class="hero" id="home">
+<div class="tag">INTELLIGENT CYBERSECURITY PLATFORM</div>
+<h1>Protect Your Digital World With <span>AI</span></h1>
+<p>Explore an AI-inspired cybersecurity dashboard for URL and email threat analysis. Identify suspicious patterns and understand potential digital risks.</p>
+</section>
+
+<main class="container">
+<div class="stats">
+<div class="stat"><small>Platform Status</small><strong class="safe">ACTIVE</strong></div>
+<div class="stat"><small>Analysis Modules</small><strong>02</strong></div>
+<div class="stat"><small>Detection Mode</small><strong>DEMO</strong></div>
+</div>
+
+<section id="analysis">
+<h2>Security Analysis Center</h2>
+<div class="grid">
+<div class="panel">
+<h2>URL Threat Analyzer</h2>
+<p style="color:#9eb1cb;font-size:14px">Enter a URL to check for suspicious patterns.</p>
+<input id="url" placeholder="https://example.com">
+<button onclick="analyzeURL()">Analyze URL</button>
+<div class="result" id="urlResult"></div>
+</div>
+
+<div class="panel">
+<h2>Email Threat Analyzer</h2>
+<p style="color:#9eb1cb;font-size:14px">Paste email text to inspect suspicious wording.</p>
+<textarea id="email" placeholder="Paste email content here..."></textarea>
+<button onclick="analyzeEmail()">Analyze Email</button>
+<div class="result" id="emailResult"></div>
+</div>
+</div>
+</section>
+
+<section class="panel" id="about">
+<h2>About SENTINEL-X AI</h2>
+<p style="color:#a9b9d1;line-height:1.8">
+SENTINEL-X AI PRO is a cybersecurity demonstration platform designed to help users understand common online threats. It provides basic pattern-based checks for suspicious URLs and email messages. This prototype is educational and does not connect to live threat intelligence databases.
+</p>
+</section>
+
+<section class="panel">
+<h2>Recent Analysis Activity</h2>
+<div id="history" style="color:#9eb1cb;line-height:2">No analysis performed yet.</div>
+</section>
+</main>
+
+<footer>
+SENTINEL-X AI PRO | Cybersecurity Awareness & Demonstration Platform<br><br>
+Educational prototype. Results are indicative, not a guarantee of safety.
+</footer>
+
+<script>
+let count=0;
+function addHistory(type,result){
+ const h=document.getElementById("history");
+ if(count===0)h.innerHTML="";
+ count++;
+ const item=document.createElement("div");
+ item.textContent=count+". "+type+" — "+result+" — "+new Date().toLocaleTimeString();
+ h.prepend(item);
+}
+function analyzeURL(){
+ const value=document.getElementById("url").value.trim();
+ const box=document.getElementById("urlResult");
+ box.style.display="block";
+ if(!value){
+ box.textContent="Please enter a URL.";
+ return;
+ }
+ let score=0, reasons=[];
+ if(!/^https:\/\//i.test(value)){score+=20;reasons.push("HTTPS is not used");}
+ if(value.length>100){score+=15;reasons.push("Unusually long URL");}
+ if(/@|%40/i.test(value)){score+=25;reasons.push("Contains an unusual @ pattern");}
+ if(/login|verify|password|account|secure-update/i.test(value)){score+=20;reasons.push("Contains sensitive-action keywords");}
+ if(/bit\.ly|tinyurl\.com|t\.co/i.test(value)){score+=15;reasons.push("Uses a URL shortener");}
+ score=Math.min(score,100);
+ const level=score>=50?"Potentially suspicious":score>=20?"Needs caution":"No obvious suspicious pattern detected";
+ const cls=score>=50?"danger":score>=20?"warning":"safe";
+ box.innerHTML='<strong class="'+cls+'">'+level+'</strong><br>Demo risk score: '+score+'/100<br>'+(reasons.length?reasons.join("<br>"):"No basic warning patterns found.")+'<br><br><small>This is a local pattern-based demo, not a live security scan.</small>';
+ addHistory("URL analysis",level);
+}
+function analyzeEmail(){
+ const value=document.getElementById("email").value.trim();
+ const box=document.getElementById("emailResult");
+ box.style.display="block";
+ if(!value){box.textContent="Please enter email content.";return;}
+ let score=0,reasons=[];
+ const text=value.toLowerCase();
+ const words=["urgent","verify your account","click here","password","suspended","claim your prize","send payment"];
+ words.forEach(word=>{if(text.includes(word)){score+=15;reasons.push("Suspicious phrase: "+word);}});
+ if(/https?:\/\//i.test(value)){score+=10;reasons.push("Contains a link");}
+ score=Math.min(score,100);
+ const level=score>=50?"Potentially suspicious":score>=20?"Needs caution":"No obvious suspicious wording detected";
+ const cls=score>=50?"danger":score>=20?"warning":"safe";
+ box.innerHTML='<strong class="'+cls+'">'+level+'</strong><br>Demo risk score: '+score+'/100<br>'+(reasons.length?reasons.join("<br>"):"No basic warning patterns found.")+'<br><br><small>This is a basic text-pattern demonstration, not a verified phishing detector.</small>';
+ addHistory("Email analysis",level);
+}
+</script>
+</body>
+</html>
